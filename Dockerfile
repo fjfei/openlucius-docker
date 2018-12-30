@@ -5,9 +5,9 @@ FROM drupal:7
 
 # install the PHP extensions we need
 RUN set -ex; \
-	apt-get update && apt-get upgrade; \
+	apt-get update && apt-get upgrade -y; \
 	apt-get install -y --no-install-recommends \
-	  git subversion openssh mercurial tini bash patch zip unzip\
+	  git subversion openssh-client mercurial  bash patch zip unzip\
       vim nano \
       mysql-client ;\
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
