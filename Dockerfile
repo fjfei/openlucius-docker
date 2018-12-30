@@ -12,7 +12,7 @@ RUN set -ex; \
       mysql-client ;\
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	apt-get clean; \
-    rm -rf /var/lib/apt/lists/*; \
+    rm -rf /var/lib/apt/lists/*
 
 #RUN docker-php-ext-install pdo_mysql
 
@@ -26,18 +26,19 @@ RUN set -ex; \
 ##  		echo 'opcache.enable_cli=1'; \
 ##  	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN echo "memory_limit=-1" > "/usr/local/etc/php/conf.d/memory-limit.ini" \
- && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "/usr/local/etc/php/conf.d/date_timezone.ini"
- 
+# RUN echo "memory_limit=-1" > "/usr/local/etc/php/conf.d/memory-limit.ini" \
+#  && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "/usr/local/etc/php/conf.d/date_timezone.ini"
+
+WORKDIR /var/www/html
 # Install Composer.
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php ;\ 
+  mv composer.phar /usr/local/bin/composer
 
 # Install drush 8.x. https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar
 RUN curl -fSL "https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar" -o /usr/local/bin/drush ;\ 
     chmod +x /usr/local/bin/drush
 
-WORKDIR /var/www/html
+#WORKDIR /var/www/html
 
 # https://www.drupal.org/project/openlucius/releases
 ENV OL_VERSION 7.x-1.7
